@@ -1,0 +1,135 @@
+<html>
+<style>
+    #barchart rect {
+        fill: steelblue;
+        stroke: white;     
+    }
+
+    #barchart .label {
+        fill: black;
+        font: 10px sans-serif;
+        text-anchor: middle;
+    }
+
+    #barchart .xaxis {
+        fill: black;
+        font: 10px sans-serif;
+        text-anchor: middle;
+    }
+
+    #barchart{
+        background-color: #CCCCCC;
+        padding: 20px;
+    }
+
+
+</style>
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.5.1/socket.io.js"></script>
+    <script src="http://underscorejs.org/underscore.js" type="text/javascript"></script>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script>
+        var input = [];
+        var chart = [];
+
+        $(function(){
+
+            var socket = io('http://localhost:3000');
+ 
+            if(socket.connect()){
+                
+                socket.on('connect', function () {
+                    $('#connected').html('Connected');
+                    //$('#histChar').empty();
+                });
+
+                socket.on('disconnect', function() {
+                    $('#connected').html('Disconnected!');
+                    //$('#histChar').empty();
+                });
+
+                socket.on('update', function(data){
+                    input = data;
+
+                    //$('#histChar').empty();
+
+                    //for(var ii = 0; ii < hist.length; ii++){
+                    //  $('#histChar').append('<li>' + hist[ii]['letter']// + ": " + hist[ii]['count']);
+                    //}
+
+                    initBar(input['total_hist']);
+
+                });
+            };
+
+        });
+        
+        function initBar(hist){
+
+            d3.select("#barchart").selectAll('g').remove();
+
+            var bw = 20,
+                h = 400,
+                w = 800;
+
+            var ymax = _.max(hist, function(o){ return o.count;}).count;
+
+            var y = d3.scale.linear()
+                .domain([0, ymax])
+                .range([h, 0]);
+
+            var chart = d3.select("#barchart")
+                .attr('height', h);
+
+            chart.attr('width', bw * hist.length + 30);
+
+            var bar = chart.selectAll("g")
+                .data(hist)
+              .enter().append("g")
+                .attr('class','bar')
+                .attr('transform', function(d, i){return "translate(" + i * bw + ",0)";});
+
+            bar.append('rect')
+                .attr('y', function(d){return y(d.count);})
+                .attr("width", bw-1)
+                .attr("height", function(d) { return h-y(d.count); });
+
+            bar.append('text')
+                .attr('class','label')
+                .attr('x', bw/2)
+                .attr('y', function(d){return y(d.count)-10;})
+                .attr('dy', '.75em')
+                .text(function(d) {return d.count;});
+
+            bar.append("text")
+            .attr('class','xaxis')
+              .attr("x", bw)
+              .attr("y", h+10)
+              .attr("dy", ".35em")
+              .attr("dx", "-1em")
+              .text(function(d) { return d.letter; });
+
+        }
+
+        function type(d) {
+            d.count = +d.count; // coerce to number
+            return d;
+        }
+        
+    </script>
+</head>
+<body>
+
+<H1 id="connected">Disconnected</H1></br>
+
+<svg id="barchart" height="400px" width="800px"></svg></br>
+
+<!--Character Histrogram:&nbsp;
+<ul id="histChar">
+    <li>Test!</li>
+</ul>
+-->
+
+</body>
+</html>
