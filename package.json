@@ -1,0 +1,25 @@
+{
+  "name": "node-demo-charcounter-web",
+  "version": "1.0.0",
+  "description": "Character Counter Using Local Client-Server with Web Output",
+  "main": "charcounter-client.js",
+  "scripts": {
+    "start": "node charcounter-client.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/engelsjk/node-demo-charcounter-web.git"
+  },
+  "keywords": [
+    "Character",
+    "Counter",
+    "Charts"
+  ],
+  "author": "Jon Engelsman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/engelsjk/node-demo-charcounter-web/issues"
+  },
+  "homepage": "https://github.com/engelsjk/node-demo-charcounter-web#readme"
+}
