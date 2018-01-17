@@ -2,7 +2,7 @@
 
 Character Counter Using Local Client-Server with Web Output
 
-This is a simple Node.js demo of a client-server service that counts the number of characters (case-sensitive) in a user-input string, very similar to my <code>node-demo-charcounter-local</code> project. However, this variant has an additional web output, consisting of either simple text or barchart plotting of the character count results.
+This is a simple Node.js demo of a client-server service that counts the number of characters (case-sensitive) in a user-input string, very similar to my [node-demo-charcounter-local](https://github.com/engelsjk/node-demo-charcounter-local) project. However, this variant has an additional web output, consisting of either simple text or barchart plotting of the character count results.
 
 <ul>
 <li>Start the server in a terminal, <code>node charcounter-server.js</code>, using either 'text' or 'bar' as a CLI argument to indicate which web page output you want.</li>
